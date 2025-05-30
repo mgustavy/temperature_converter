@@ -55,78 +55,115 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
 
   Widget _buildConversionCard() {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(16),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ChoiceChip(
-                    label: const Text('°C to °F'),
-                    selected: isCelsiusToFahrenheit,
-                    onSelected: (selected) {
-                      setState(() {
-                        isCelsiusToFahrenheit = true;
-                      });
-                    },
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: ChoiceChip(
+                        label: const Text('°C to °F'),
+                        selected: isCelsiusToFahrenheit,
+                        onSelected: (selected) {
+                          setState(() {
+                            isCelsiusToFahrenheit = true;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 2),
-                SizedBox(
-                  width: 40,
-                  child: IconButton(
-                    icon: const Icon(Icons.swap_horiz),
-                    onPressed: () {
-                      setState(() {
-                        isCelsiusToFahrenheit = !isCelsiusToFahrenheit;
-                      });
-                    },
+                  Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.swap_horiz),
+                      onPressed: () {
+                        setState(() {
+                          isCelsiusToFahrenheit = !isCelsiusToFahrenheit;
+                        });
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: ChoiceChip(
-                    label: const Text('°F to °C'),
-                    selected: !isCelsiusToFahrenheit,
-                    onSelected: (selected) {
-                      setState(() {
-                        isCelsiusToFahrenheit = false;
-                      });
-                    },
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 4),
+                      child: ChoiceChip(
+                        label: const Text('°F to °C'),
+                        selected: !isCelsiusToFahrenheit,
+                        onSelected: (selected) {
+                          setState(() {
+                            isCelsiusToFahrenheit = false;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Enter temperature',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _controller.clear();
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _convertTemperature,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF51A5FA),
+                backgroundColor: const Color.fromARGB(255, 66, 21, 179),
                 minimumSize: const Size(double.infinity, 48),
+                elevation: 0,
               ),
               child: const Text(
                 'Convert',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
             const SizedBox(height: 12),
             if (_result != null)
-              Text(
-                'Result: ${_result!.toStringAsFixed(2)} ${isCelsiusToFahrenheit ? '℉' : '℃'}',
-                style: const TextStyle(fontSize: 20),
-              ),
+  Container(
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Result',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${_result!.toStringAsFixed(2)} ${isCelsiusToFahrenheit ? '℉' : '℃'}',
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  ),
           ],
         ),
       ),
@@ -146,7 +183,7 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
               children: [
                 const Icon(Icons.history),
                 const SizedBox(width: 8),
-                const Text('History', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('History', style: TextStyle(fontWeight: FontWeight.w600)),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.delete_outline),
@@ -159,7 +196,7 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             if (_history.isEmpty)
               const Text('No history yet.')
             else
