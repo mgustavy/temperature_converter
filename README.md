@@ -1,10 +1,10 @@
-# 🌡️ Temperature Converter App
+# Temperature Converter App
 
 A simple and beautifully styled **Flutter application** for converting temperatures between Celsius and Fahrenheit. The app features a clean UI, conversion history, and responsive user experience enhancements.
 
 ---
 
-## 📌 Purpose
+## Purpose
 
 This app was built to demonstrate core Flutter concepts, including:
 
@@ -18,7 +18,7 @@ This app was built to demonstrate core Flutter concepts, including:
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 The app follows a simple, flat architecture with all logic housed within `main.dart` for demonstration purposes. It uses:
 
