@@ -1,16 +1,29 @@
-# temperature_converter
+# 🌡️ Temperature Converter App
 
-A new Flutter project.
+A simple and beautifully styled **Flutter application** for converting temperatures between Celsius and Fahrenheit. The app features a clean UI, conversion history, and responsive user experience enhancements.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📌 Purpose
 
-A few resources to get you started if this is your first Flutter project:
+This app was built to demonstrate core Flutter concepts, including:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Stateful and stateless widget management
+- User input handling
+- Conditional UI rendering
+- Custom styling with themes and widgets
+- Layout using Rows, Columns, and Cards
+- Smooth user interaction with gesture detection
+- Gradient background and modern UI design
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🏗️ Architecture Overview
+
+The app follows a simple, flat architecture with all logic housed within `main.dart` for demonstration purposes. It uses:
+
+- `MaterialApp` as the root widget for theming and routing
+- `StatefulWidget` to handle temperature conversion logic and input state
+- Internal methods to render UI components (`_buildConversionCard`, `_buildHistoryCard`)
+
+---
