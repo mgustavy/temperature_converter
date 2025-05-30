@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const TemperatureConverterApp());
@@ -11,6 +12,7 @@ class TemperatureConverterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Temperature Converter',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -55,10 +57,12 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
 
   Widget _buildConversionCard() {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.white,
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: const EdgeInsets.all(16),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             IntrinsicHeight(
@@ -76,6 +80,11 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
                             isCelsiusToFahrenheit = true;
                           });
                         },
+                        backgroundColor: const Color(0xFFFAFAFA),
+                        selectedColor: const Color(0xFFD7F4FF),
+                        labelStyle: TextStyle(
+                          color: isCelsiusToFahrenheit ? const Color(0xFF125896) : const Color(0xFF888888),
+                        ),
                       ),
                     ),
                   ),
@@ -100,6 +109,11 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
                             isCelsiusToFahrenheit = false;
                           });
                         },
+                        backgroundColor: const Color(0xFFFAFAFA),
+                        selectedColor: const Color(0xFFD7F4FF),
+                        labelStyle: TextStyle(
+                          color: !isCelsiusToFahrenheit ? const Color(0xFF125896) : const Color(0xFF888888),
+                        ),
                       ),
                     ),
                   ),
@@ -112,9 +126,22 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: 'Enter temperature',
-                border: const OutlineInputBorder(),
+                labelStyle: TextStyle(color: Color(0xFF999EA2)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE4E4E4)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE4E4E4)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF0984EF), width: 1.5),
+                ),
+                contentPadding: const EdgeInsets.only(left: 16, right: 12),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: const Icon(Icons.clear, size: 18),
                   onPressed: () {
                     _controller.clear();
                   },
@@ -125,7 +152,7 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
             ElevatedButton(
               onPressed: _convertTemperature,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 66, 21, 179),
+                backgroundColor: const Color(0xFF0984EF),
                 minimumSize: const Size(double.infinity, 48),
                 elevation: 0,
               ),
@@ -140,8 +167,8 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
     width: double.infinity,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
+      color: Color.fromARGB(255, 246, 246, 246),
+      borderRadius: BorderRadius.circular(8),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,6 +199,8 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
 
   Widget _buildHistoryCard() {
     return Card(
+      color: Colors.white,
+      elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
@@ -210,22 +239,53 @@ class _TemperatureConverterScreenState extends State<TemperatureConverterScreen>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
-      appBar: AppBar(
-        title: const Text('Temperature Converter'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0.5,
+@override
+Widget build(BuildContext context) {
+  return AnnotatedRegion<SystemUiOverlayStyle>(
+    value: const SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
+    ),
+    child: GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: const Text(
+            'Temperature Converter',
+            style: TextStyle(
+              fontWeight: FontWeight.w600, 
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF26AFD6), // Very light gray
+                Color(0xFff0f0f0), // Light gray
+                Color(0xFFFFFFFF), // Medium light gray
+              ],
+              stops: [0.0, 0.4, 1.0],
+            ),
+          ),
+          child: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              children: [
+                _buildConversionCard(),
+                _buildHistoryCard(),
+              ],
+            ),
+          ),
+        ),
       ),
-      body: ListView(
-        children: [
-          _buildConversionCard(),
-          _buildHistoryCard(),
-        ],
-      ),
-    );
-  }
+    ),
+  );
+}
 }
